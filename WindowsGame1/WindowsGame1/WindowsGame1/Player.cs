@@ -24,13 +24,12 @@ namespace WindowsGame1
             shoot    = Keys.K,
             shield   = Keys.L;
 
-        private float rotation;
         private bool isShieldActivated;
 
-        public Player(Vector2 position, Texture2D texture)
-            : base(position, new Vector2(50, 50), texture) 
+        public Player(Vector2 position)
+            : base(position, new Vector2(50, 50), Assets.ship) 
         {
-            Debug.WriteLine(Position + ", " + Size);
+            SetOriginCenter();
         }
 
         public override void Update()
@@ -40,26 +39,26 @@ namespace WindowsGame1
             KeyboardState oks = Game1.OldKs;
             if (ks.IsKeyDown(forward))
             {
-                Velocity += new Vector2((float)Math.Cos(rotation) * ACCELERATION, (float)Math.Sin(rotation) * ACCELERATION);
+                Velocity += new Vector2((float)Math.Cos(Rotation) * ACCELERATION, (float)Math.Sin(Rotation) * ACCELERATION);
             }
             if (ks.IsKeyDown(backward))
             {
-                Velocity -= new Vector2((float)Math.Cos(rotation) * DECELERATION, (float)Math.Sin(rotation) * DECELERATION);
+                Velocity -= new Vector2((float)Math.Cos(Rotation) * DECELERATION, (float)Math.Sin(Rotation) * DECELERATION);
             }
-            if (ks.IsKeyDown(left)) rotation -= ROTATION;
-            if (ks.IsKeyDown(right)) rotation += ROTATION;
+            if (ks.IsKeyDown(left)) Rotation -= ROTATION;
+            if (ks.IsKeyDown(right)) Rotation += ROTATION;
 
             if (ks.IsKeyDown(shield) && oks.IsKeyUp(shield)) isShieldActivated = !isShieldActivated;
 
-            if (ks.IsKeyDown(shoot) && oks.IsKeyUp(shoot)) Scene.AddObject(new Bullet(Position, rotation, this));
+            if (ks.IsKeyDown(shoot) && oks.IsKeyUp(shoot)) Scene.AddObject(new Bullet(Position, Rotation, this));
 
             base.Update();
         }
 
         public override void Draw(SpriteBatch batch)
         {
-            batch.Draw(Texture, Position, null, Color, rotation, new Vector2(Texture.Width, Texture.Height) / 2, Size / new Vector2(Texture.Width, Texture.Height), SpriteEffects.None, 0);
-            if (isShieldActivated) batch.Draw(Assets.shield, Position, null, Color, rotation, new Vector2(Assets.shield.Width, Assets.shield.Height) / 2, Size / new Vector2(Texture.Width, Texture.Height), SpriteEffects.None, 0);
+            base.Draw(batch);
+            if (isShieldActivated) batch.Draw(Assets.shield, Position, null, Color, Rotation, new Vector2(Assets.shield.Width, Assets.shield.Height) / 2, Size / new Vector2(Texture.Width, Texture.Height), SpriteEffects.None, 0);
         }
     }
 }

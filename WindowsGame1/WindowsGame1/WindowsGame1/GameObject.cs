@@ -13,6 +13,8 @@ namespace WindowsGame1
         public Vector2 Position { get; protected set; }
         public Vector2 Velocity { get; protected set; }
         public Vector2 Size { get; protected set; }
+        public float Rotation { get; protected set; }
+        public Vector2 Origin { get; protected set; }
         public Texture2D Texture { get; protected set; }
         public Color Color { get; protected set; }
         public Scene Scene { get; set; }
@@ -21,8 +23,13 @@ namespace WindowsGame1
         {
             this.Position = position;
             this.Size = size;
-            this.Texture = texture;
+            this.Texture = texture; 
             Color = Color.White;
+        }
+
+        protected void SetOriginCenter()
+        {
+            Origin = new Vector2(Texture.Width, Texture.Height) / 2;
         }
 
         public virtual void Update()
@@ -32,7 +39,7 @@ namespace WindowsGame1
 
         public virtual void Draw(SpriteBatch batch)
         {
-            batch.Draw(Texture, Hitbox, Color);
+            batch.Draw(Texture, Position, null, Color, Rotation, Origin, Size / new Vector2(Texture.Width, Texture.Height), SpriteEffects.None, 0);
         }
     }
 }

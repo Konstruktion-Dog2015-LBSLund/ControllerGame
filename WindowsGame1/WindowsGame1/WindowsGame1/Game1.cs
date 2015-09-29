@@ -29,7 +29,6 @@ namespace WindowsGame1
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            Scene = new GameScene();
         }
 
         /// <summary>
@@ -87,7 +86,7 @@ namespace WindowsGame1
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             Scene.Draw(spriteBatch);
 

@@ -10,7 +10,7 @@ namespace WindowsGame1
     {
         public GameScene()
         {
-            AddObject(new Player(new Vector2(100, 100), Assets.ship));
+            AddObject(new Player(new Vector2(100, 100)));
         }
     }
 }

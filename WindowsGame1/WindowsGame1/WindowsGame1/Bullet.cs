@@ -11,18 +11,17 @@ namespace WindowsGame1
         const float SPEED = 10;
 
         GameObject parent;
-        float rotation;
 
         public Bullet(Vector2 position, float rotation, GameObject parent)
         : base(position, new Vector2(10, 10), Assets.shot)
         {
             this.parent = parent;
-            this.rotation = rotation;
+            Rotation = rotation;
         }
 
         public override void Update()
         {
-            Position += new Vector2((float)Math.Cos(rotation) * SPEED, (float)Math.Sin(rotation) * SPEED);
+            Position += new Vector2((float)Math.Cos(Rotation) * SPEED, (float)Math.Sin(Rotation) * SPEED);
             base.Update();
         }
     }
