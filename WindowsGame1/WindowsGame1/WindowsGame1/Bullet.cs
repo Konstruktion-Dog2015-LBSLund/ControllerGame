@@ -17,11 +17,20 @@ namespace WindowsGame1
         {
             this.parent = parent;
             Rotation = rotation;
+
+            Velocity = RotationVector * SPEED;
+        }
+
+        public override void OnCollide(GameObject g)
+        {
+            if (g != parent)
+            {
+                Scene.RemoveObject(this);
+            }
         }
 
         public override void Update()
         {
-            Position += new Vector2((float)Math.Cos(Rotation) * SPEED, (float)Math.Sin(Rotation) * SPEED);
             base.Update();
         }
     }

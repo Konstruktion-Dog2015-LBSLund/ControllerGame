@@ -14,7 +14,8 @@ namespace WindowsGame1
         public static Texture2D
             ship,
             shield,
-            shot;
+            shot,
+            asteroid;
 
         public static void Load(ContentManager content)
         {
@@ -23,6 +24,7 @@ namespace WindowsGame1
             ship = Texture("player");
             shield = Texture("shield");
             shot = Texture("shot");
+            asteroid = Texture("asteroid");
         }
 
         private static Texture2D Texture(string name)

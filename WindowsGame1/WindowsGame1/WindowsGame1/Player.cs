@@ -39,11 +39,11 @@ namespace WindowsGame1
             KeyboardState oks = Game1.OldKs;
             if (ks.IsKeyDown(forward))
             {
-                Velocity += new Vector2((float)Math.Cos(Rotation) * ACCELERATION, (float)Math.Sin(Rotation) * ACCELERATION);
+                Velocity += RotationVector * ACCELERATION;
             }
             if (ks.IsKeyDown(backward))
             {
-                Velocity -= new Vector2((float)Math.Cos(Rotation) * DECELERATION, (float)Math.Sin(Rotation) * DECELERATION);
+                Velocity -= RotationVector * DECELERATION;
             }
             if (ks.IsKeyDown(left)) Rotation -= ROTATION;
             if (ks.IsKeyDown(right)) Rotation += ROTATION;
