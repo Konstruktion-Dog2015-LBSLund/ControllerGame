@@ -8,26 +8,10 @@ namespace WindowsGame1
 {
     class GameScene : Scene
     {
-        Random r;
-
-        int asteroidTimer;
-        int asteroidTime = 100;
-
+        Random rnd = new Random();
         public GameScene()
         {
-            AddObject(new Player(new Vector2(100, 100)));
-            r = new Random();
-        }
-
-        public override void Update()
-        {
-            base.Update();
-
-            if (asteroidTimer++ > asteroidTime)
-            {
-                asteroidTimer = 0;
-                AddObject(new Asteroid(r));
-            }
+            AddObject(new Player(new Vector2(100, 100), Game1.PlayerTexture));
         }
     }
 }

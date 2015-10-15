@@ -18,17 +18,24 @@ namespace WindowsGame1
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        public static Random rnd = new Random();
         public static KeyboardState CurrentKs { get; private set; }
         public static KeyboardState OldKs { get; private set; }
-
+        public const int screenHeight = 600;
+        public const int screenWidth = 800;
         private static Scene scene;
         internal static Scene Scene { get { return scene; } set { if (scene != null) scene.OnPause(); scene = value; scene.OnResume(); } }
-        
+
+        public static Texture2D PlayerTexture { get; private set; }
+        public static Texture2D RockTexture { get; private set; }
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferHeight = screenHeight;
+            graphics.PreferredBackBufferWidth = screenWidth;
+            Scene = new GameScene();
         }
 
         /// <summary>
@@ -39,8 +46,8 @@ namespace WindowsGame1
         /// </summary>
         protected override void Initialize()
         {
-            Assets.Load(Content);
-
+            PlayerTexture = Content.Load<Texture2D>("player");
+            RockTexture = Content.Load<Texture2D>("rock");
             CurrentKs = OldKs = Keyboard.GetState();
             Scene = new GameScene();
             base.Initialize();
@@ -74,6 +81,8 @@ namespace WindowsGame1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            if (CurrentKs.IsKeyDown(Keys.Escape))
+                this.Exit();
             CurrentKs = Keyboard.GetState();
             Scene.Update();
             OldKs = CurrentKs;
@@ -86,7 +95,7 @@ namespace WindowsGame1
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            spriteBatch.Begin();
 
             Scene.Draw(spriteBatch);
 

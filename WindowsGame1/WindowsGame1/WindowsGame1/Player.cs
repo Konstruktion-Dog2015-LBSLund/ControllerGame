@@ -11,54 +11,50 @@ namespace WindowsGame1
 {
     class Player : GameObject
     {
-        private const float 
-            ACCELERATION = 0.40f, 
-            DECELERATION = 0.30f, 
-            ROTATION     = 0.10f, 
-            FRICTION     = 0.98f;
+        private const float ACCELERATION = .3f, DECELERATION = .3f, ROTATION = .1f, FRICTION = .99f;
         private Keys 
-            forward  = Keys.W,
+            forward = Keys.A,
             backward = Keys.S,
-            left     = Keys.A, 
-            right    = Keys.D,
-            shoot    = Keys.K,
-            shield   = Keys.L;
+            left = Keys.D, 
+            right = Keys.D3;
 
-        private bool isShieldActivated;
+        private float rotation;
 
-        public Player(Vector2 position)
-            : base(position, new Vector2(50, 50), Assets.ship) 
+        public Player(Vector2 position, Texture2D texture)
+            : base(position, new Vector2(100, 100), texture) 
         {
-            SetOriginCenter();
+            Debug.WriteLine(Position + ", " + Size);
         }
 
         public override void Update()
         {
             Velocity *= FRICTION;
             KeyboardState ks = Game1.CurrentKs;
-            KeyboardState oks = Game1.OldKs;
             if (ks.IsKeyDown(forward))
             {
-                Velocity += RotationVector * ACCELERATION;
+                Velocity += new Vector2((float)Math.Cos(rotation) * ACCELERATION, (float)Math.Sin(rotation) * ACCELERATION);
             }
             if (ks.IsKeyDown(backward))
             {
-                Velocity -= RotationVector * DECELERATION;
+                Velocity -= new Vector2((float)Math.Cos(rotation) * DECELERATION, (float)Math.Sin(rotation) * DECELERATION);
             }
-            if (ks.IsKeyDown(left)) Rotation -= ROTATION;
-            if (ks.IsKeyDown(right)) Rotation += ROTATION;
+            if (ks.IsKeyDown(left)) rotation -= ROTATION;
+            if (ks.IsKeyDown(right)) rotation += ROTATION;
 
-            if (ks.IsKeyDown(shield) && oks.IsKeyUp(shield)) isShieldActivated = !isShieldActivated;
-
-            if (ks.IsKeyDown(shoot) && oks.IsKeyUp(shoot)) Scene.AddObject(new Bullet(Position, Rotation, this));
-
+            if (Position.X < 0)
+                Position = new Vector2(Game1.screenWidth, Position.Y);
+            if (Position.X > Game1.screenWidth)
+                Position = new Vector2(0, Position.Y);
+            if (Position.Y < 0)
+                Position = new Vector2(Position.X, Game1.screenHeight);
+            if (Position.Y + Velocity.Y > Game1.screenHeight)
+                Position = new Vector2(Position.X, 0);
             base.Update();
         }
 
         public override void Draw(SpriteBatch batch)
         {
-            base.Draw(batch);
-            if (isShieldActivated) batch.Draw(Assets.shield, Position, null, Color, Rotation, new Vector2(Assets.shield.Width, Assets.shield.Height) / 2, Size / new Vector2(Texture.Width, Texture.Height), SpriteEffects.None, 0);
+            batch.Draw(Texture, Position, null, Color, rotation, new Vector2(Texture.Width, Texture.Height) / 2, Size / new Vector2(Texture.Width, Texture.Height), SpriteEffects.None, 0);
         }
     }
 }

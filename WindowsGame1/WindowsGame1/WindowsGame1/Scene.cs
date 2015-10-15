@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using System;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WindowsGame;
 
 namespace WindowsGame1
 {
@@ -18,7 +20,7 @@ namespace WindowsGame1
             Objects = new List<GameObject>();
         }
 
-        public virtual void Update()
+        public void Update()
         {
             foreach (GameObject g in toAdd)
             {
@@ -28,19 +30,8 @@ namespace WindowsGame1
             foreach (GameObject g in toRemove) Objects.Remove(g);
             toAdd.Clear();
             toRemove.Clear();
-            foreach (GameObject g in Objects)
-            {
-                g.Update();
-
-                foreach (GameObject g2 in Objects) 
-                {
-                    if (g == g2 || !g.CollisionEnabled || !g2.CollisionEnabled) continue;
-                    if (g.Hitbox.Intersects(g2.Hitbox))
-                    {
-                        g.OnCollide(g2);
-                    }
-                }
-            }
+            foreach (GameObject g in Objects) g.Update();
+            toAdd.Add(new Rock(new Vector2(Game1.rnd.Next(-200, -100), Game1.rnd.Next(-100, 700)), Game1.RockTexture, Game1.rnd.Next()));
         }
 
         public virtual void OnPause() { }
@@ -56,7 +47,7 @@ namespace WindowsGame1
             toRemove.Add(g);
         }
 
-        public virtual void Draw(SpriteBatch batch)
+        public void Draw(SpriteBatch batch)
         {
             foreach (GameObject g in Objects) g.Draw(batch);
         }
