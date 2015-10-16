@@ -13,10 +13,10 @@ namespace WindowsGame1
     {
         private const float ACCELERATION = .3f, DECELERATION = .3f, ROTATION = .1f, FRICTION = .99f;
         private Keys 
-            forward = Keys.A,
+            forward = Keys.W,
             backward = Keys.S,
-            left = Keys.D, 
-            right = Keys.D3;
+            left = Keys.A, 
+            right = Keys.D;
 
         private float rotation;
 

@@ -8,7 +8,9 @@ using WindowsGame;
 
 namespace WindowsGame1
 {
-    internal class Scene
+    // this is a base scene class. Game logic should not happen here, but in a more specific child class
+
+    internal abstract class Scene
     {
         private List<GameObject> toAdd, toRemove;
         public List<GameObject> Objects { get; private set; }
@@ -20,7 +22,7 @@ namespace WindowsGame1
             Objects = new List<GameObject>();
         }
 
-        public void Update()
+        public virtual void Update()
         {
             foreach (GameObject g in toAdd)
             {
@@ -31,7 +33,6 @@ namespace WindowsGame1
             toAdd.Clear();
             toRemove.Clear();
             foreach (GameObject g in Objects) g.Update();
-            toAdd.Add(new Rock(new Vector2(Game1.rnd.Next(-200, -100), Game1.rnd.Next(-100, 700)), Game1.RockTexture, Game1.rnd.Next()));
         }
 
         public virtual void OnPause() { }
@@ -47,7 +48,7 @@ namespace WindowsGame1
             toRemove.Add(g);
         }
 
-        public void Draw(SpriteBatch batch)
+        public virtual void Draw(SpriteBatch batch)
         {
             foreach (GameObject g in Objects) g.Draw(batch);
         }

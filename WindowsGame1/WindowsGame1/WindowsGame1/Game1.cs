@@ -47,7 +47,7 @@ namespace WindowsGame1
         protected override void Initialize()
         {
             PlayerTexture = Content.Load<Texture2D>("player");
-            RockTexture = Content.Load<Texture2D>("rock");
+            RockTexture = Content.Load<Texture2D>("asteroid");
             CurrentKs = OldKs = Keyboard.GetState();
             Scene = new GameScene();
             base.Initialize();
