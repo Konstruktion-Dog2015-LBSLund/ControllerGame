@@ -12,13 +12,12 @@ namespace WindowsGame1
     class Player : GameObject
     {
         private const float ACCELERATION = .3f, DECELERATION = .3f, ROTATION = .1f, FRICTION = .99f;
-        private Keys 
+        private Keys
             forward = Keys.W,
             backward = Keys.S,
-            left = Keys.A, 
-            right = Keys.D;
-
-        private float rotation;
+            left = Keys.A,
+            right = Keys.D,
+            shoot = Keys.J;
 
         public Player(Vector2 position, Texture2D texture)
             : base(position, new Vector2(100, 100), texture) 
@@ -30,16 +29,17 @@ namespace WindowsGame1
         {
             Velocity *= FRICTION;
             KeyboardState ks = Game1.CurrentKs;
+            KeyboardState oks = Game1.OldKs;
             if (ks.IsKeyDown(forward))
             {
-                Velocity += new Vector2((float)Math.Cos(rotation) * ACCELERATION, (float)Math.Sin(rotation) * ACCELERATION);
+                Velocity += RotationVector * ACCELERATION;
             }
             if (ks.IsKeyDown(backward))
             {
-                Velocity -= new Vector2((float)Math.Cos(rotation) * DECELERATION, (float)Math.Sin(rotation) * DECELERATION);
+                Velocity -= RotationVector * DECELERATION;
             }
-            if (ks.IsKeyDown(left)) rotation -= ROTATION;
-            if (ks.IsKeyDown(right)) rotation += ROTATION;
+            if (ks.IsKeyDown(left)) Rotation -= ROTATION;
+            if (ks.IsKeyDown(right)) Rotation += ROTATION;
 
             if (Position.X < 0)
                 Position = new Vector2(Game1.screenWidth, Position.Y);
@@ -49,12 +49,14 @@ namespace WindowsGame1
                 Position = new Vector2(Position.X, Game1.screenHeight);
             if (Position.Y + Velocity.Y > Game1.screenHeight)
                 Position = new Vector2(Position.X, 0);
+
+            if (ks.IsKeyDown(shoot) && oks.IsKeyUp(shoot)) Shoot();
             base.Update();
         }
 
-        public override void Draw(SpriteBatch batch)
+        private void Shoot()
         {
-            batch.Draw(Texture, Position, null, Color, rotation, new Vector2(Texture.Width, Texture.Height) / 2, Size / new Vector2(Texture.Width, Texture.Height), SpriteEffects.None, 0);
+            Scene.AddObject(new Bullet(Position, Rotation, this));
         }
     }
 }

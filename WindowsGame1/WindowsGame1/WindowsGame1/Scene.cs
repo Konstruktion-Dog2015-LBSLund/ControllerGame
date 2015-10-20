@@ -33,6 +33,18 @@ namespace WindowsGame1
             toAdd.Clear();
             toRemove.Clear();
             foreach (GameObject g in Objects) g.Update();
+
+            for (int i = 0; i < Objects.Count - 1; i++)
+            {
+                for (int j = i + 1; j < Objects.Count; j++) // objects only check for collision with objects in front in the list, so nothing is checked twice
+                {
+                    if (Objects[i].Hitbox.Intersects(Objects[j].Hitbox))
+                    {
+                        Objects[i].OnCollide(Objects[j]);
+                        Objects[j].OnCollide(Objects[i]);
+                    }
+                }
+            }
         }
 
         public virtual void OnPause() { }

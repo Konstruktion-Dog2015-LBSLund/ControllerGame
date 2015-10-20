@@ -46,6 +46,7 @@ namespace WindowsGame1
         /// </summary>
         protected override void Initialize()
         {
+            Assets.Load(Content);
             PlayerTexture = Content.Load<Texture2D>("player");
             RockTexture = Content.Load<Texture2D>("asteroid");
             CurrentKs = OldKs = Keyboard.GetState();
@@ -94,7 +95,7 @@ namespace WindowsGame1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
 
             Scene.Draw(spriteBatch);

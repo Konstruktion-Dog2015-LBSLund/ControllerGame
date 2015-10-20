@@ -12,6 +12,9 @@ namespace WindowsGame
 {
     class Rock : GameObject
     {
+        int health;
+        int Health { get { return health; } set { health = value; if (health <= 0) Scene.RemoveObject(this); } }
+
         public Rock(Random rnd)
             : base(Vector2.Zero, new Vector2(50, 50), Game1.RockTexture)
         {
@@ -20,6 +23,12 @@ namespace WindowsGame
             a += (float)Math.PI;
             a += (float)(rnd.NextDouble() - .5) * .5f;
             Velocity = new Vector2((float)Math.Cos(a), (float)Math.Sin(a)) * rnd.Next(1, 3);
+            Health = 2;
+        }
+
+        public override void OnCollide(GameObject g)
+        {
+            if (g is Bullet) Health--;
         }
 
         public override void Update()
@@ -30,6 +39,7 @@ namespace WindowsGame
         }
         public override void Draw(SpriteBatch batch)
         {
+            batch.Draw(Assets.shield, Hitbox, Color.Yellow);
             base.Draw(batch);
         }
     }

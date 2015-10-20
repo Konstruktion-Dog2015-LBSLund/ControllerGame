@@ -9,13 +9,15 @@ namespace WindowsGame1
 {
     abstract class GameObject
     {
-        public Rectangle Hitbox { get { return new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y); } }
+        public Rectangle Hitbox { get { return new Rectangle((int)Position.X - (int)Size.X / 2, (int)Position.Y - (int)Size.Y / 2, (int)Size.X, (int)Size.Y); } }
         public Vector2 Position { get; protected set; }
         public Vector2 Velocity { get; protected set; }
         public Vector2 Size { get; protected set; }
         public Texture2D Texture { get; protected set; }
         public Color Color { get; protected set; }
         public Scene Scene { get; set; }
+        public float Rotation { get; protected set; }
+        public Vector2 RotationVector { get { return new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation)); } }
 
         public GameObject(Vector2 position, Vector2 size, Texture2D texture)
         {
@@ -25,6 +27,10 @@ namespace WindowsGame1
             Color = Color.White;
         }
 
+        public virtual void OnCollide(GameObject g)
+        {
+        }
+
         public virtual void Update()
         {
             Position += Velocity;
@@ -32,7 +38,7 @@ namespace WindowsGame1
 
         public virtual void Draw(SpriteBatch batch)
         {
-            batch.Draw(Texture, Hitbox, Color);
+            batch.Draw(Texture, Position, null, Color, Rotation, new Vector2(Texture.Width, Texture.Height) / 2, Size / new Vector2(Texture.Width, Texture.Height), SpriteEffects.None, 0);
         }
     }
 }

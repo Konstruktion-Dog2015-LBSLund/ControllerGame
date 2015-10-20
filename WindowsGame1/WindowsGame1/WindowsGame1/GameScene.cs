@@ -16,7 +16,7 @@ namespace WindowsGame1
 
         public GameScene()
         {
-            AddObject(new Player(new Vector2(100, 100), Game1.PlayerTexture));
+            AddObject(new Player(new Vector2(100, 100), Assets.ship));
         }
 
         public override void Update()
