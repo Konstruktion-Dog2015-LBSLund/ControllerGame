@@ -13,11 +13,11 @@ namespace WindowsGame1
     {
         private const float ACCELERATION = .3f, DECELERATION = .3f, ROTATION = .1f, FRICTION = .99f;
         private Keys
-            forward = Keys.W,
+            forward  = Keys.W,
             backward = Keys.S,
-            left = Keys.A,
-            right = Keys.D,
-            shoot = Keys.J;
+            left     = Keys.A,
+            right    = Keys.D,
+            shoot    = Keys.J;
 
         public Player(Vector2 position, Texture2D texture)
             : base(position, new Vector2(100, 100), texture) 
@@ -33,6 +33,14 @@ namespace WindowsGame1
             if (ks.IsKeyDown(forward))
             {
                 Velocity += RotationVector * ACCELERATION;
+                int p = 5;
+                float a = .3f;
+                float da = a / 5;
+                for (int i = 0; i < p; i++)
+                {
+                    float ca = da * i + Rotation - a / 2 + (float)Math.PI;
+                    Scene.AddObject(new Particle(Position - RotationVector * 30, 20, new Vector2((float)Math.Cos(ca), (float)Math.Sin(ca)) * 10, Color.Yellow));
+                }
             }
             if (ks.IsKeyDown(backward))
             {

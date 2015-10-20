@@ -18,17 +18,28 @@ namespace WindowsGame
         public Rock(Random rnd)
             : base(Vector2.Zero, new Vector2(50, 50), Game1.RockTexture)
         {
+            Collides = true;
             float a = (float)(rnd.NextDouble() * 2 * Math.PI);
             Position = new Vector2((float)Math.Cos(a), (float)Math.Sin(a)) * 1000 + new Vector2(Game1.screenWidth, Game1.screenHeight) / 2;
             a += (float)Math.PI;
             a += (float)(rnd.NextDouble() - .5) * .5f;
             Velocity = new Vector2((float)Math.Cos(a), (float)Math.Sin(a)) * rnd.Next(1, 3);
-            Health = 2;
+            Health = 1;
         }
 
         public override void OnCollide(GameObject g)
         {
             if (g is Bullet) Health--;
+        }
+
+        public override void OnDestroy()
+        {
+            int p = 30;
+            float da = 2 * (float)Math.PI / p;
+            for (int i = 0; i < p; i++)
+            {
+                Scene.AddObject(new Particle(Position, 60, new Vector2((float)Math.Cos(da * i), (float)Math.Sin(da * i)) * 5, Color.Brown));
+            }
         }
 
         public override void Update()

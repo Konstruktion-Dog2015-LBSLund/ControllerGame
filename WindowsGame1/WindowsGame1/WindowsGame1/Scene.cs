@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WindowsGame;
+using System.Diagnostics;
 
 namespace WindowsGame1
 {
@@ -24,20 +25,31 @@ namespace WindowsGame1
 
         public virtual void Update()
         {
+            Debug.WriteLine(toAdd.Count + " objects in add lits");
             foreach (GameObject g in toAdd)
             {
                 Objects.Add(g);
+                Debug.WriteLine("object added");
                 g.Scene = this;
             }
-            foreach (GameObject g in toRemove) Objects.Remove(g);
             toAdd.Clear();
+            foreach (GameObject g in toRemove)
+            {
+                Objects.Remove(g);
+                g.OnDestroy();
+            }
             toRemove.Clear();
+
             foreach (GameObject g in Objects) g.Update();
 
             for (int i = 0; i < Objects.Count - 1; i++)
             {
+                if (!Objects[i].Collides) continue;
+
                 for (int j = i + 1; j < Objects.Count; j++) // objects only check for collision with objects in front in the list, so nothing is checked twice
                 {
+                    if (!Objects[j].Collides) continue;
+
                     if (Objects[i].Hitbox.Intersects(Objects[j].Hitbox))
                     {
                         Objects[i].OnCollide(Objects[j]);
@@ -53,6 +65,7 @@ namespace WindowsGame1
         public void AddObject(GameObject g)
         {
             toAdd.Add(g);
+            Debug.WriteLine("object added to add list," + toAdd.Count + " total");
         }
 
         public void RemoveObject(GameObject g)

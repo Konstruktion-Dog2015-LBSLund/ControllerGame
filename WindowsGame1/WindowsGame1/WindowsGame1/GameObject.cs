@@ -9,6 +9,7 @@ namespace WindowsGame1
 {
     abstract class GameObject
     {
+        public bool Collides { get; protected set; }
         public Rectangle Hitbox { get { return new Rectangle((int)Position.X - (int)Size.X / 2, (int)Position.Y - (int)Size.Y / 2, (int)Size.X, (int)Size.Y); } }
         public Vector2 Position { get; protected set; }
         public Vector2 Velocity { get; protected set; }
@@ -30,6 +31,8 @@ namespace WindowsGame1
         public virtual void OnCollide(GameObject g)
         {
         }
+
+        public virtual void OnDestroy() { }
 
         public virtual void Update()
         {

@@ -19,7 +19,7 @@ namespace WindowsGame1
         {
             this.parent = parent;
             Rotation = rotation;
-
+            Collides = true;
             Velocity = RotationVector * SPEED;
         }
 

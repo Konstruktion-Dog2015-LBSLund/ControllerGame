@@ -15,16 +15,18 @@ namespace WindowsGame1
             ship,
             shield,
             shot,
-            asteroid;
+            asteroid,
+            particle;
 
         public static void Load(ContentManager content)
         {
             Content = content;
 
-            ship = Texture("player");
-            shield = Texture("shield");
-            shot = Texture("shot");
+            ship     = Texture("player");
+            shield   = Texture("shield");
+            shot     = Texture("shot");
             asteroid = Texture("asteroid");
+            particle = Texture("particle");
         }
 
         private static Texture2D Texture(string name)
