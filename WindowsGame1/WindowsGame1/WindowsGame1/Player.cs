@@ -13,11 +13,13 @@ namespace WindowsGame1
     {
         private const float ACCELERATION = .3f, DECELERATION = .3f, ROTATION = .1f, FRICTION = .99f;
         private Keys
-            forward  = Keys.W,
-            backward = Keys.S,
-            left     = Keys.A,
+            forward  = Keys.E,
+            backward = Keys.C,
+            left     = Keys.D3,
             right    = Keys.D,
-            shoot    = Keys.J;
+            shoot    = Keys.A,
+            powerup  = Keys.Q,
+            shield   = Keys.Z;
 
         public Player(Vector2 position, Texture2D texture)
             : base(position, new Vector2(100, 100), texture) 
