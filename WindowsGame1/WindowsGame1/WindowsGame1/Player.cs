@@ -12,6 +12,9 @@ namespace WindowsGame1
     class Player : GameObject
     {
         private const float ACCELERATION = .3f, DECELERATION = .3f, ROTATION = .1f, FRICTION = .99f;
+        public override Rectangle Hitbox { get { if (shieldIsUp) return new Rectangle((int)Position.X - (int)Size.X + 20, (int)Position.Y - (int)Size.Y + 20, Assets.shield.Width, Assets.shield.Height); else return base.Hitbox; } }
+        public static bool shieldIsUp;
+        sbyte shieldTimer;
         private Keys
             forward  = Keys.E,
             backward = Keys.C,
@@ -22,9 +25,10 @@ namespace WindowsGame1
             shield   = Keys.Z;
 
         public Player(Vector2 position, Texture2D texture)
-            : base(position, new Vector2(100, 100), texture) 
+            : base(position, new Vector2(100, 100), texture)
         {
             Debug.WriteLine(Position + ", " + Size);
+            Collides = true;
         }
 
         public override void Update()
@@ -43,6 +47,18 @@ namespace WindowsGame1
                     float ca = da * i + Rotation - a / 2 + (float)Math.PI;
                     Scene.AddObject(new Particle(Position - RotationVector * 30, 20, new Vector2((float)Math.Cos(ca), (float)Math.Sin(ca)) * 10, Color.Yellow));
                 }
+            }
+
+            if (ks.IsKeyDown(shield))
+            {
+                shieldIsUp = true;
+                shieldTimer = 100;
+            }
+            if (shieldIsUp)
+            {
+                shieldTimer--;
+                if (shieldTimer == 0)
+                    shieldIsUp = false;
             }
             if (ks.IsKeyDown(backward))
             {
@@ -63,7 +79,12 @@ namespace WindowsGame1
             if (ks.IsKeyDown(shoot) && oks.IsKeyUp(shoot)) Shoot();
             base.Update();
         }
-
+        public override void Draw(SpriteBatch batch)
+        {
+            base.Draw(batch);
+            if (shieldIsUp)
+                batch.Draw(Assets.shield, Hitbox, Color.White);
+        }
         private void Shoot()
         {
             Scene.AddObject(new Bullet(Position, Rotation, this));

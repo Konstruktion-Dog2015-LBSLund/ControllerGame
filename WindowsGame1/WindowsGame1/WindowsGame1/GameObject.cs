@@ -10,7 +10,7 @@ namespace WindowsGame1
     abstract class GameObject
     {
         public bool Collides { get; protected set; }
-        public Rectangle Hitbox { get { return new Rectangle((int)Position.X - (int)Size.X / 2, (int)Position.Y - (int)Size.Y / 2, (int)Size.X, (int)Size.Y); } }
+        public virtual Rectangle Hitbox { get { return new Rectangle((int)Position.X - (int)Size.X / 2, (int)Position.Y - (int)Size.Y / 2, (int)Size.X, (int)Size.Y); } }
         public Vector2 Position { get; protected set; }
         public Vector2 Velocity { get; protected set; }
         public Vector2 Size { get; protected set; }

@@ -30,6 +30,9 @@ namespace WindowsGame
         public override void OnCollide(GameObject g)
         {
             if (g is Bullet) Health--;
+
+            if (Player.shieldIsUp && g is Player)
+                Scene.RemoveObject(this);
         }
 
         public override void OnDestroy()
@@ -41,13 +44,13 @@ namespace WindowsGame
                 Scene.AddObject(new Particle(Position, 60, new Vector2((float)Math.Cos(da * i), (float)Math.Sin(da * i)) * 5, Color.Brown));
             }
         }
-
         public override void Update()
         {
             if (Position.Length() > 2000) Scene.RemoveObject(this);
 
             base.Update();
         }
+        
         public override void Draw(SpriteBatch batch)
         {
             batch.Draw(Assets.shield, Hitbox, Color.Yellow);
