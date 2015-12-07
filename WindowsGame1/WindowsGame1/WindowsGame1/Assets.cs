@@ -11,6 +11,8 @@ namespace WindowsGame1
     {
         private static ContentManager Content;
 
+        public static SpriteFont font;
+
         public static Texture2D
             ship,
             shield,
@@ -27,6 +29,8 @@ namespace WindowsGame1
             shot     = Texture("shot");
             asteroid = Texture("asteroid");
             particle = Texture("particle");
+
+            font = Content.Load<SpriteFont>("font");
         }
 
         private static Texture2D Texture(string name)

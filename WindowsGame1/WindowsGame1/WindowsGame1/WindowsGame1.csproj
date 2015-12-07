@@ -74,8 +74,11 @@
   <ItemGroup>
     <Compile Include="Assets.cs" />
     <Compile Include="Bullet.cs" />
+    <Compile Include="Button.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameScene.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="MenuScene.cs" />
     <Compile Include="Particle.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

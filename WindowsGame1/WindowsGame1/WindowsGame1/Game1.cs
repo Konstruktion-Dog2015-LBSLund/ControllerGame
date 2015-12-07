@@ -50,7 +50,7 @@ namespace WindowsGame1
             PlayerTexture = Content.Load<Texture2D>("player");
             RockTexture = Content.Load<Texture2D>("asteroid");
             CurrentKs = OldKs = Keyboard.GetState();
-            Scene = new GameScene();
+            Scene = new MenuScene();
             base.Initialize();
         }
 
