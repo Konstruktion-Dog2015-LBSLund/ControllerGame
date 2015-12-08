@@ -29,6 +29,8 @@ namespace WindowsGame1
         public static Texture2D PlayerTexture { get; private set; }
         public static Texture2D RockTexture { get; private set; }
 
+        private static bool exit;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -52,6 +54,11 @@ namespace WindowsGame1
             CurrentKs = OldKs = Keyboard.GetState();
             Scene = new MenuScene();
             base.Initialize();
+        }
+
+        public static void Exit()
+        {
+            exit = true;
         }
 
         /// <summary>
@@ -82,8 +89,8 @@ namespace WindowsGame1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (CurrentKs.IsKeyDown(Keys.Escape))
-                this.Exit();
+            if (CurrentKs.IsKeyDown(Keys.Escape) || exit)
+                base.Exit();
             CurrentKs = Keyboard.GetState();
             Scene.Update();
             OldKs = CurrentKs;

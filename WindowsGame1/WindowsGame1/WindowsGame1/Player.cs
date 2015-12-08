@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using WindowsGame;
 
 namespace WindowsGame1
 {
@@ -24,11 +25,15 @@ namespace WindowsGame1
             powerup  = Keys.Q,
             shield   = Keys.Z;
 
+        private int health, score;
+
         public Player(Vector2 position, Texture2D texture)
             : base(position, new Vector2(100, 100), texture)
         {
             Debug.WriteLine(Position + ", " + Size);
             Collides = true;
+
+            health = 10;
         }
 
         public override void Update()
@@ -77,13 +82,31 @@ namespace WindowsGame1
                 Position = new Vector2(Position.X, 0);
 
             if (ks.IsKeyDown(shoot) && oks.IsKeyUp(shoot)) Shoot();
+
+            if (health <= 0)
+            {
+                Game1.Scene = new GameOverScene(score);
+            }
+
             base.Update();
         }
+
+        public override void OnCollide(GameObject g)
+        {
+            if (g is Rock)
+            {
+                Scene.RemoveObject(g);
+                if (!shieldIsUp) health--;
+            }
+        }
+
         public override void Draw(SpriteBatch batch)
         {
             base.Draw(batch);
             if (shieldIsUp)
                 batch.Draw(Assets.shield, Hitbox, Color.White);
+
+            batch.DrawString(Assets.font, "Health: " + health + "\nScore: " + score, Vector2.Zero, Color.White);
         }
         private void Shoot()
         {
