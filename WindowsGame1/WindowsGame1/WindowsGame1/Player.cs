@@ -56,7 +56,14 @@ namespace WindowsGame1
                 }
             }
 
-            if (ks.IsKeyDown(shield))
+            bool pausing = false;
+            if (ks.IsKeyDown(shoot) && ks.IsKeyDown(powerup) && ks.IsKeyDown(shield))
+            {
+                pausing = true;
+                Game1.Scene = new PauseScene(Scene);
+            }
+
+            if (ks.IsKeyDown(shield) && !pausing)
             {
                 shieldIsUp = true;
                 shieldTimer = 100;
@@ -88,6 +95,8 @@ namespace WindowsGame1
                 Position = new Vector2(Position.X, 0);
 
             if (ks.IsKeyDown(shoot) && oks.IsKeyUp(shoot)) Shoot();
+
+            
 
             if (health <= 0)
             {

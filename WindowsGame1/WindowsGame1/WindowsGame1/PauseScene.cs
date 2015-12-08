@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,22 +6,23 @@ using System.Text;
 
 namespace WindowsGame1
 {
-    class GameOverScene : Scene
+    class PauseScene : Scene
     {
         Menu menu;
-        int score;
+        Scene prevScene;
 
-        public GameOverScene(int score)
+        public PauseScene(Scene prevScene)
             : base()
         {
             List<Button> buttons = new List<Button>();
 
-            buttons.Add(new Button("play again", Play));
+            buttons.Add(new Button("resume", Play));
+            buttons.Add(new Button("main menu", ToMenu));
             buttons.Add(new Button("quit", Exit));
 
-            menu = new Menu("Game Over", buttons);
+            menu = new Menu("Paused", buttons);
 
-            this.score = score;
+            this.prevScene = prevScene;
         }
 
         public override void Update()
@@ -32,13 +32,17 @@ namespace WindowsGame1
 
         public override void Draw(SpriteBatch batch)
         {
-            batch.DrawString(Assets.font, "score: " + score, new Vector2(100, 200), Color.White);
             menu.Draw(batch);
         }
 
         private void Play()
         {
-            Game1.Scene = new GameScene();
+            Game1.Scene = prevScene;
+        }
+
+        private void ToMenu()
+        {
+            Game1.Scene = new MenuScene();
         }
 
         private void Exit()

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,13 @@ namespace WindowsGame1
         const Keys UP = Keys.E, DOWN = Keys.C, SELECT = Keys.A;
 
         private List<Button> buttons;
-
+        string title;
         int selected;
 
-        public Menu(List<Button> buttons)
+        public Menu(string title, List<Button> buttons)
         {
             this.buttons = buttons;
-
+            this.title = title;
             int i = 0;
             foreach (Button b in buttons)
             {
@@ -40,6 +41,7 @@ namespace WindowsGame1
         public void Draw(SpriteBatch batch)
         {
             int i = 0;
+            batch.DrawString(Assets.font, title, new Vector2(100, 100), Color.White);
             foreach (Button b in buttons) b.Draw(batch, selected == i++);
         }
     }

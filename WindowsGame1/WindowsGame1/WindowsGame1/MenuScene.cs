@@ -18,7 +18,7 @@ namespace WindowsGame1
             buttons.Add(new Button("play", Play));
             buttons.Add(new Button("quit", Exit));
 
-            menu = new Menu(buttons);
+            menu = new Menu("Main Menu", buttons);
         }
 
         public override void Update()

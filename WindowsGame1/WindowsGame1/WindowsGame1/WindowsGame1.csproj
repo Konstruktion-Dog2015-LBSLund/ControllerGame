@@ -81,6 +81,7 @@
     <Compile Include="Menu.cs" />
     <Compile Include="MenuScene.cs" />
     <Compile Include="Particle.cs" />
+    <Compile Include="PauseScene.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Powerup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
