@@ -12,7 +12,7 @@ namespace WindowsGame1
 {
     class Player : GameObject
     {
-        private const float ACCELERATION = .3f, DECELERATION = .3f, ROTATION = .1f, FRICTION = .99f;
+        private const float ACCELERATION = .3f, DECELERATION = .3f, ROTATION = .01f, FRICTION = .99f, ANG_FRICTION = .9f;
         public override Rectangle Hitbox { get { if (shieldIsUp) return new Rectangle((int)Position.X - (int)Size.X + 20, (int)Position.Y - (int)Size.Y + 20, Assets.shield.Width, Assets.shield.Height); else return base.Hitbox; } }
         public static bool shieldIsUp;
         sbyte shieldTimer;
@@ -27,6 +27,7 @@ namespace WindowsGame1
 
         private int health;
         public static int score;
+        private float angularVel;
 
         public Player(Vector2 position, Texture2D texture)
             : base(position, new Vector2(100, 100), texture)
@@ -70,8 +71,12 @@ namespace WindowsGame1
             {
                 Velocity -= RotationVector * DECELERATION;
             }
-            if (ks.IsKeyDown(left)) Rotation -= ROTATION;
-            if (ks.IsKeyDown(right)) Rotation += ROTATION;
+
+            angularVel *= ANG_FRICTION;
+            if (ks.IsKeyDown(left)) angularVel -= ROTATION;
+            if (ks.IsKeyDown(right)) angularVel += ROTATION;
+
+            Rotation += angularVel;
 
             if (Position.X < 0)
                 Position = new Vector2(Game1.screenWidth, Position.Y);

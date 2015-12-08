@@ -9,7 +9,7 @@ namespace WindowsGame1
 {
     class Menu
     {
-        const Keys UP = Keys.W, DOWN = Keys.S, SELECT = Keys.Enter;
+        const Keys UP = Keys.E, DOWN = Keys.C, SELECT = Keys.A;
 
         private List<Button> buttons;
 
