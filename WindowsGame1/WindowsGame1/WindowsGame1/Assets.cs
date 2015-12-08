@@ -18,7 +18,8 @@ namespace WindowsGame1
             shield,
             shot,
             asteroid,
-            particle;
+            particle,
+            powerup;
 
         public static void Load(ContentManager content)
         {
@@ -29,6 +30,7 @@ namespace WindowsGame1
             shot     = Texture("shot");
             asteroid = Texture("asteroid");
             particle = Texture("particle");
+            powerup  = Texture("powerup");
 
             font = Content.Load<SpriteFont>("font");
         }

@@ -25,7 +25,8 @@ namespace WindowsGame1
             powerup  = Keys.Q,
             shield   = Keys.Z;
 
-        private int health, score;
+        private int health;
+        public static int score;
 
         public Player(Vector2 position, Texture2D texture)
             : base(position, new Vector2(100, 100), texture)
@@ -97,6 +98,12 @@ namespace WindowsGame1
             {
                 Scene.RemoveObject(g);
                 if (!shieldIsUp) health--;
+            }
+
+            if (g is Powerup)
+            {
+                Scene.RemoveObject(g);
+                health++;
             }
         }
 
