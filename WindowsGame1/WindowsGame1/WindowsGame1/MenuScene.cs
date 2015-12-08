@@ -16,6 +16,7 @@ namespace WindowsGame1
             List<Button> buttons = new List<Button>();
 
             buttons.Add(new Button("play", Play));
+            buttons.Add(new Button("how to play", HowTo));
             buttons.Add(new Button("quit", Exit));
 
             menu = new Menu("Main Menu", buttons);
@@ -34,6 +35,11 @@ namespace WindowsGame1
         private void Play()
         {
             Game1.Scene = new GameScene();
+        }
+
+        private void HowTo()
+        {
+            Game1.Scene = new InfoScene(Game1.Scene);
         }
 
         private void Exit()

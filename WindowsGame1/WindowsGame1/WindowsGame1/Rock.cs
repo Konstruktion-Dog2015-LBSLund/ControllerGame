@@ -37,6 +37,7 @@ namespace WindowsGame
                     if (Game1.rnd.NextDouble() < .1)
                     {
                         Scene.AddObject(new Powerup(this.Position));
+                        Player.score += 100;
                     }
                 }
             }
@@ -53,8 +54,6 @@ namespace WindowsGame
             {
                 Scene.AddObject(new Particle(Position, 60, new Vector2((float)Math.Cos(da * i), (float)Math.Sin(da * i)) * 5, Color.Brown));
             }
-
-            Player.score += 100;
         }
         public override void Update()
         {
@@ -65,7 +64,6 @@ namespace WindowsGame
         
         public override void Draw(SpriteBatch batch)
         {
-            batch.Draw(Assets.shield, Hitbox, Color.Yellow);
             base.Draw(batch);
         }
     }

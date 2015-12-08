@@ -15,7 +15,7 @@ namespace WindowsGame1
         private const float ACCELERATION = .3f, DECELERATION = .3f, ROTATION = .01f, FRICTION = .99f, ANG_FRICTION = .9f;
         public override Rectangle Hitbox { get { if (shieldIsUp) return new Rectangle((int)Position.X - (int)Size.X + 20, (int)Position.Y - (int)Size.Y + 20, Assets.shield.Width, Assets.shield.Height); else return base.Hitbox; } }
         public static bool shieldIsUp;
-        sbyte shieldTimer;
+        int shieldTimer;
         private Keys
             forward  = Keys.E,
             backward = Keys.C,
@@ -28,6 +28,7 @@ namespace WindowsGame1
         private int health;
         public static int score;
         private float angularVel;
+        private int shieldTime = 60, shieldCooldown = 180;
 
         public Player(Vector2 position, Texture2D texture)
             : base(position, new Vector2(100, 100), texture)
@@ -63,17 +64,18 @@ namespace WindowsGame1
                 Game1.Scene = new PauseScene(Scene);
             }
 
-            if (ks.IsKeyDown(shield) && !pausing)
+            if (shieldTimer > 0) shieldTimer--;
+            if (ks.IsKeyDown(shield) && !pausing && shieldTimer == 0)
             {
                 shieldIsUp = true;
-                shieldTimer = 100;
+                shieldTimer = shieldCooldown + shieldTime;
             }
             if (shieldIsUp)
             {
-                shieldTimer--;
-                if (shieldTimer == 0)
+                if (shieldTimer <= shieldCooldown)
                     shieldIsUp = false;
             }
+
             if (ks.IsKeyDown(backward))
             {
                 Velocity -= RotationVector * DECELERATION;
@@ -114,7 +116,7 @@ namespace WindowsGame1
                 if (!shieldIsUp) health--;
             }
 
-            if (g is Powerup)
+            if (g is Powerup && Game1.CurrentKs.IsKeyDown(powerup))
             {
                 Scene.RemoveObject(g);
                 health++;
@@ -127,7 +129,7 @@ namespace WindowsGame1
             if (shieldIsUp)
                 batch.Draw(Assets.shield, Hitbox, Color.White);
 
-            batch.DrawString(Assets.font, "Health: " + health + "\nScore: " + score, Vector2.Zero, Color.White);
+            batch.DrawString(Assets.font, "Health: " + health + "\nScore: " + score + (shieldTimer == 0 ? "\nShield available" : ""), Vector2.Zero, Color.White);
         }
         private void Shoot()
         {
