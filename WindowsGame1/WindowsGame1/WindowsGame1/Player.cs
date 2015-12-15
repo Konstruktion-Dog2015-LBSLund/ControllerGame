@@ -25,7 +25,7 @@ namespace WindowsGame1
             powerup  = Keys.Q,
             shield   = Keys.Z;
 
-        private int health;
+        private int health, damageCounter;
         public static int score;
         private float angularVel;
         private int shieldTime = 60, shieldCooldown = 180;
@@ -41,6 +41,8 @@ namespace WindowsGame1
 
         public override void Update()
         {
+            if (damageCounter > 0) damageCounter--;
+
             Velocity *= FRICTION;
             KeyboardState ks = Game1.CurrentKs;
             KeyboardState oks = Game1.OldKs;
@@ -113,7 +115,12 @@ namespace WindowsGame1
             if (g is Rock)
             {
                 Scene.RemoveObject(g);
-                if (!shieldIsUp) health--;
+                if (!shieldIsUp)
+                {
+                    damageCounter = 30;
+                    health--;
+                }
+                
             }
 
             if (g is Powerup && Game1.CurrentKs.IsKeyDown(powerup))
@@ -125,6 +132,7 @@ namespace WindowsGame1
 
         public override void Draw(SpriteBatch batch)
         {
+            Color = (damageCounter == 0 ? Color.White : Color.Red);
             base.Draw(batch);
             if (shieldIsUp)
                 batch.Draw(Assets.shield, Hitbox, Color.White);
